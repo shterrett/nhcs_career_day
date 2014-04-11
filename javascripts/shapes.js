@@ -6,17 +6,46 @@ $(document).ready(function () {
                         height: 140,
                         left: 100,
                         top: 100,
+                        fill: 'blue'
                       }
 
-    var buildRectangle = function () {
-      rectOptions.set('fill', $('#color').val());
-      new fabric.Rect(rectOptions);
+    var userOptions = function() {
+      return { width: parseInt($('#width').val()),
+               height: parseInt($('#height').val()),
+               left: parseInt($('#left').val()),
+               top: parseInt($('#top').val()),
+               fill: $('#color').val()
+             }
     }
 
-    $('button').on('click', function () {
-      rectOptions.fill = $('#color').val();
-      var rectangle = new fabric.Rect(rectOptions);
-      canvas.add(rectangle);
+    var optionKeys = ['width', 'height', 'left', 'top', 'fill']
+
+    var mergeOptions = function () {
+      console.log('mergeOptions')
+      suppliedOptions = userOptions()
+      resultOptions = {}
+      optionKeys.forEach(function(value, index) {
+        if (suppliedOptions[value]) {
+          resultOptions[value] = suppliedOptions[value];
+        } else {
+          resultOptions[value] = rectOptions[value];
+        }
+      }, this)
+      console.log(resultOptions);
+      return resultOptions;
+    }
+
+    var buildRectangle = function () {
+      console.log('buildRectangle');
+      return new fabric.Rect(mergeOptions());
+    }
+
+    $('button#render').on('click', function () {
+      canvas.add(buildRectangle());
+    });
+
+    $('button#clear').on('click', function () {
+      canvas.clear();
     });
   }
 
