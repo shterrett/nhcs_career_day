@@ -21,7 +21,6 @@ $(document).ready(function () {
     var optionKeys = ['width', 'height', 'left', 'top', 'fill']
 
     var mergeOptions = function () {
-      console.log('mergeOptions')
       suppliedOptions = userOptions()
       resultOptions = {}
       optionKeys.forEach(function(value, index) {
@@ -31,12 +30,10 @@ $(document).ready(function () {
           resultOptions[value] = rectOptions[value];
         }
       }, this)
-      console.log(resultOptions);
       return resultOptions;
     }
 
     var buildRectangle = function () {
-      console.log('buildRectangle');
       return new fabric.Rect(mergeOptions());
     }
 
